@@ -20,9 +20,10 @@ export const GET_MY_TRIPS = gql`
 
 export default function Profile() {
   const { data, loading, error } = useQuery(GET_MY_TRIPS, {
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
   })
-  if (loading) return <Loading />
+
+  if (loading && !data) return <Loading />
   if (error) return <p>ERROR: {error.message}</p>
 
   return (
