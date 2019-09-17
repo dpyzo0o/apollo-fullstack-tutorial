@@ -29,15 +29,9 @@ module.exports.paginateResults = ({
 }
 
 module.exports.createStore = () => {
-  const Op = SQL.Op
-  const operatorsAliases = {
-    $in: Op.in,
-  }
-
   const db = new SQL('database', 'username', 'password', {
     dialect: 'sqlite',
     storage: './store.sqlite',
-    operatorsAliases,
     logging: false,
   })
 
