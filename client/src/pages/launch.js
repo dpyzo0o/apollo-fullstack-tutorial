@@ -25,8 +25,13 @@ export default function Launch({ launchId }) {
     variables: { launchId },
   })
 
-  if (loading) return <Loading />
-  if (error) return <p>ERROR: {error.message}</p>
+  if (loading) {
+    return <Loading />
+  }
+
+  if (error) {
+    return <p>ERROR: {error.message}</p>
+  }
 
   return (
     <Fragment>

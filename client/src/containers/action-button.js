@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
 import { GET_LAUNCH_DETAILS } from '../pages/launch'
-import Button from '../components/button'
+import { Button, Loading } from '../components'
 
 // export all queries used in this file for testing
 export { GET_LAUNCH_DETAILS }
@@ -41,8 +41,13 @@ export default function ActionButton({ isBooked, id, isInCart }) {
     }
   )
 
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>An error occurred</p>
+  if (loading) {
+    return <Loading />
+  }
+
+  if (error) {
+    return <p>An error occurred</p>
+  }
 
   return (
     <div>

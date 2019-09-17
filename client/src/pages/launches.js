@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
@@ -34,9 +34,40 @@ export const GET_LAUNCHES = gql`
 `
 
 export default function Launches() {
+  const [fetchMoreLoading, setFetchMoreLoading] = useState(false)
   const { data, loading, error, fetchMore } = useQuery(GET_LAUNCHES)
-  if (loading) return <Loading />
-  if (error) return <p>ERROR</p>
+
+  function handleClick() {
+    setFetchMoreLoading(prev => !prev)
+    fetchMore({
+      variables: {
+        after: data.launches.cursor,
+        pageSize: 5,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        setFetchMoreLoading(prev => !prev)
+        if (!fetchMoreResult) return prev
+        return {
+          ...fetchMoreResult,
+          launches: {
+            ...fetchMoreResult.launches,
+            launches: [
+              ...prev.launches.launches,
+              ...fetchMoreResult.launches.launches,
+            ],
+          },
+        }
+      },
+    })
+  }
+
+  if (loading) {
+    return <Loading />
+  }
+
+  if (error) {
+    return <p>ERROR</p>
+  }
 
   return (
     <Fragment>
@@ -46,33 +77,13 @@ export default function Launches() {
         data.launches.launches.map(launch => (
           <LaunchTile key={launch.id} launch={launch} />
         ))}
-      {data.launches && data.launches.hasMore && (
-        <Button
-          onClick={() =>
-            fetchMore({
-              variables: {
-                after: data.launches.cursor,
-                pageSize: 5,
-              },
-              updateQuery: (prev, { fetchMoreResult, ...rest }) => {
-                if (!fetchMoreResult) return prev
-                return {
-                  ...fetchMoreResult,
-                  launches: {
-                    ...fetchMoreResult.launches,
-                    launches: [
-                      ...prev.launches.launches,
-                      ...fetchMoreResult.launches.launches,
-                    ],
-                  },
-                }
-              },
-            })
-          }
-        >
-          Load More
-        </Button>
-      )}
+      {data.launches &&
+        data.launches.hasMore &&
+        (fetchMoreLoading ? (
+          <Loading />
+        ) : (
+          <Button onClick={handleClick}>Load More</Button>
+        ))}
     </Fragment>
   )
 }
