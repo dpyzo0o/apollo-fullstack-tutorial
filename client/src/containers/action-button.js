@@ -27,19 +27,46 @@ export const CANCEL_TRIP = gql`
   }
 `
 
-export default function ActionButton({ isBooked, id, isInCart }) {
-  const [mutate, { loading, error }] = useMutation(
-    isBooked ? CANCEL_TRIP : TOGGLE_CART,
-    {
-      variables: { launchId: id },
-      refetchQueries: [
-        {
-          query: GET_LAUNCH_DETAILS,
-          variables: { launchId: id },
-        },
-      ],
+const IS_LAUNCH_IN_CART = gql`
+  query IsLaunchInCart($launchId: ID!) {
+    launch(id: $launchId) {
+      id
+      isInCart @client
     }
-  )
+  }
+`
+
+export default function ActionButton({ isBooked, id, isInCart }) {
+  const [cancelTrip, { loading, error }] = useMutation(CANCEL_TRIP, {
+    variables: { launchId: id },
+    refetchQueries: [
+      {
+        query: GET_LAUNCH_DETAILS,
+        variables: { launchId: id },
+      },
+    ],
+  })
+
+  const [toggleCart] = useMutation(TOGGLE_CART, {
+    variables: { launchId: id },
+    update: cache => {
+      const { launch } = cache.readQuery({
+        query: IS_LAUNCH_IN_CART,
+        variables: { launchId: id },
+      })
+
+      cache.writeQuery({
+        query: IS_LAUNCH_IN_CART,
+        variables: { launchId: id },
+        data: {
+          launch: {
+            ...launch,
+            isInCart: !launch.isInCart,
+          },
+        },
+      })
+    },
+  })
 
   if (loading) {
     return <Loading />
@@ -52,7 +79,7 @@ export default function ActionButton({ isBooked, id, isInCart }) {
   return (
     <div>
       <Button
-        onClick={mutate}
+        onClick={isBooked ? cancelTrip : toggleCart}
         isBooked={isBooked}
         data-testid={'action-button'}
       >
