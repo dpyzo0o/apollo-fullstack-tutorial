@@ -22,6 +22,7 @@ export const CANCEL_TRIP = gql`
       launches {
         id
         isBooked
+        isInCart @client
       }
     }
   }
@@ -45,23 +46,6 @@ export default function ActionButton({ isBooked, id, isInCart }) {
         variables: { launchId: id },
       },
     ],
-    update: cache => {
-      const { launch } = cache.readQuery({
-        query: IS_LAUNCH_IN_CART,
-        variables: { launchId: id },
-      })
-
-      cache.writeQuery({
-        query: IS_LAUNCH_IN_CART,
-        variables: { launchId: id },
-        data: {
-          launch: {
-            ...launch,
-            isInCart: !launch.isInCart,
-          },
-        },
-      })
-    },
   })
 
   const [toggleCart] = useMutation(TOGGLE_CART, {
