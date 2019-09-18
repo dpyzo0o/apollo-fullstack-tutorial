@@ -11,8 +11,9 @@ export default function LogoutButton() {
     <StyledButton
       data-testid="logout-button"
       onClick={() => {
-        client.writeData({ data: { isLoggedIn: false } })
+        // client.writeData({ data: { isLoggedIn: false } })
         localStorage.clear()
+        client.resetStore()
       }}
     >
       <ExitIcon />

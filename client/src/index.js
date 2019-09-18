@@ -23,6 +23,15 @@ const customFetch = (uri, options) =>
     },
   })
 
+const writeDefaultCacheData = cache => {
+  cache.writeData({
+    data: {
+      isLoggedIn: !!localStorage.getItem('token'),
+      cartItems: [],
+    },
+  })
+}
+
 // Set up our apollo-client to point at the server we created
 // this can be local or a remote endpoint
 const cache = new InMemoryCache()
@@ -36,11 +45,11 @@ const client = new ApolloClient({
   typeDefs,
 })
 
-cache.writeData({
-  data: {
-    isLoggedIn: !!localStorage.getItem('token'),
-    cartItems: [],
-  },
+writeDefaultCacheData(cache)
+
+// reset cache when logged out
+client.onResetStore(() => {
+  writeDefaultCacheData(cache)
 })
 
 /**

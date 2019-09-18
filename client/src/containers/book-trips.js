@@ -4,6 +4,7 @@ import gql from 'graphql-tag'
 
 import Button from '../components/button'
 import { GET_LAUNCH } from './cart-item'
+import { Loading } from '../components'
 
 export { GET_LAUNCH }
 export const BOOK_TRIPS = gql`
@@ -20,7 +21,7 @@ export const BOOK_TRIPS = gql`
 `
 
 export default function BookTrips({ cartItems }) {
-  const [bookTrips, { data }] = useMutation(BOOK_TRIPS, {
+  const [bookTrips, { data, loading, error }] = useMutation(BOOK_TRIPS, {
     variables: { launchIds: cartItems },
     refetchQueries: cartItems.map(launchId => ({
       query: GET_LAUNCH,
@@ -30,6 +31,14 @@ export default function BookTrips({ cartItems }) {
       cache.writeData({ data: { cartItems: [] } })
     },
   })
+
+  if (loading) {
+    return <Loading />
+  }
+
+  if (error) {
+    return <p>ERROR: {error.message}</p>
+  }
 
   return data && data.bookTrips && !data.bookTrips.success ? (
     <p data-testid="message">{data.bookTrips.message}</p>
