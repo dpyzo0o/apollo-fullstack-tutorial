@@ -99,7 +99,7 @@ const StyledRocket = styled(Rocket)(svgClassName, {
 })
 
 const StyledForm = styled('form')({
-  width: '100%',
+  width: '90%',
   maxWidth: 406,
   padding: unit * 3.5,
   borderRadius: 3,

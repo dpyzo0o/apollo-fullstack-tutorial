@@ -30,9 +30,9 @@ export const CANCEL_TRIP = gql`
 
 const IS_LAUNCH_IN_CART = gql`
   query IsLaunchInCart($launchId: ID!) {
-    launch(id: $launchId) {
+    launch(id: $launchId) @client {
       id
-      isInCart @client
+      isInCart
     }
   }
 `
