@@ -5,6 +5,7 @@ import { ApolloClient } from 'apollo-client'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { createHttpLink } from 'apollo-link-http'
 import { ApolloProvider, useQuery } from '@apollo/react-hooks'
+import { ApolloLink, concat } from 'apollo-link'
 import gql from 'graphql-tag'
 
 import Pages from './pages'
@@ -12,16 +13,19 @@ import Login from './pages/login'
 import { resolvers, typeDefs } from './resolvers'
 import injectStyles from './styles'
 
-const customFetch = (uri, options) =>
-  fetch(uri, {
-    ...options,
+const authMiddleware = new ApolloLink((operation, forward) => {
+  // add the authorization to the headers
+  operation.setContext(({ headers = {} }) => ({
     headers: {
-      ...options.headers,
+      ...headers,
       authorization: localStorage.getItem('token'),
       'client-name': 'Space Explorer [web]',
       'client-version': '1.0.0',
     },
-  })
+  }))
+
+  return forward(operation)
+})
 
 const writeDefaultCacheData = cache => {
   cache.writeData({
@@ -37,10 +41,12 @@ const writeDefaultCacheData = cache => {
 const cache = new InMemoryCache()
 const client = new ApolloClient({
   cache,
-  link: new createHttpLink({
-    uri: 'http://localhost:4000/',
-    fetch: customFetch,
-  }),
+  link: concat(
+    authMiddleware,
+    new createHttpLink({
+      uri: 'http://localhost:4000/',
+    })
+  ),
   resolvers,
   typeDefs,
 })
