@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { useParams } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
@@ -20,7 +21,8 @@ export const GET_LAUNCH_DETAILS = gql`
   ${LAUNCH_TILE_DATA}
 `
 
-export default function Launch({ launchId }) {
+export default function Launch() {
+  const { launchId } = useParams()
   const { data, loading, error } = useQuery(GET_LAUNCH_DETAILS, {
     variables: { launchId },
   })
