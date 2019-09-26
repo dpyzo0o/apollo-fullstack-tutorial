@@ -36,6 +36,7 @@ export default function Profile() {
       ) : (
         <p>You haven't booked any trips</p>
       )}
+      {loading && data && <Loading />}
     </Fragment>
   )
 }
