@@ -13,6 +13,10 @@ const mockStore = {
 }
 module.exports.mockStore = mockStore
 
+afterEach(() => {
+  jest.clearAllMocks()
+})
+
 const ds = new UserAPI({ store: mockStore })
 ds.initialize({ context: { user: { id: 1, email: 'a@a.a' } } })
 
@@ -66,6 +70,14 @@ describe('[UserAPI.bookTrips]', () => {
 
     const res = await ds.bookTrips({ launchIds: [1, 2] })
     expect(res).toEqual(['heya', 'okay'])
+
+    expect(mockStore.trips.findOrCreate).toHaveBeenCalledTimes(2)
+    expect(mockStore.trips.findOrCreate).toHaveBeenNthCalledWith(1, {
+      where: { launchId: 1, userId: 1 },
+    })
+    expect(mockStore.trips.findOrCreate).toHaveBeenNthCalledWith(2, {
+      where: { launchId: 2, userId: 1 },
+    })
   })
 })
 
