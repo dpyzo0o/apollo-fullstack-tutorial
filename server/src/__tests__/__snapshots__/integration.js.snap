@@ -32,7 +32,7 @@ exports[`Queries fetches list of launches 1`] = `
 Object {
   "data": Object {
     "launches": Object {
-      "cursor": "1143239400",
+      "cursor": "1",
       "hasMore": false,
       "launches": Array [
         Object {

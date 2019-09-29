@@ -94,7 +94,7 @@ describe('Queries', () => {
       context: () => ({ user: { id: 1, email: 'a@a.a' } }),
     })
 
-    launchAPI.get = jest.fn(() => [mockLaunchResponse])
+    launchAPI.get = jest.fn(() => mockLaunchResponse)
     userAPI.store = mockStore
     userAPI.store.trips.findAll.mockReturnValueOnce([
       { dataValues: { launchId: 1 } },
@@ -135,8 +135,8 @@ describe('Mutations', () => {
 
     // look up the launches from the launch API
     launchAPI.get
-      .mockReturnValueOnce([mockLaunchResponse])
-      .mockReturnValueOnce([{ ...mockLaunchResponse, flight_number: 2 }])
+      .mockReturnValueOnce(mockLaunchResponse)
+      .mockReturnValueOnce({ ...mockLaunchResponse, flight_number: 2 })
 
     // book the trip in the store
     userAPI.store = mockStore

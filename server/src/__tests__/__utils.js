@@ -27,6 +27,7 @@ const constructTestServer = ({ context = defaultContext } = {}) => {
     resolvers,
     dataSources: () => ({ userAPI, launchAPI }),
     context,
+    engine: false,
   })
 
   return { server, userAPI, launchAPI }
