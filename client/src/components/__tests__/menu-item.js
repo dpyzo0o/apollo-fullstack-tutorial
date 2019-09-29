@@ -1,4 +1,5 @@
 import React from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 import { render, cleanup } from '../../test-utils'
 import MenuItem from '../menu-item'
@@ -8,6 +9,10 @@ describe('Menu Item', () => {
   afterEach(cleanup)
 
   it('renders without error', () => {
-    render(<MenuItem to="/wow" />)
+    render(
+      <Router>
+        <MenuItem to="/wow" />
+      </Router>
+    )
   })
 })

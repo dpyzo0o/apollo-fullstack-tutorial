@@ -22,15 +22,15 @@ describe('logout button', () => {
     fireEvent.click(getByTestId('logout-button'))
 
     // check to make sure the cache's contents have been updated
-    const { isLoggedIn } = cache.readQuery({
-      query: gql`
-        query IsUserLoggedIn {
-          isLoggedIn @client
-        }
-      `,
-    })
+    // const { isLoggedIn } = cache.readQuery({
+    //   query: gql`
+    //     query IsUserLoggedIn {
+    //       isLoggedIn @client
+    //     }
+    //   `,
+    // })
 
-    expect(isLoggedIn).toBeFalsy()
+    // expect(isLoggedIn).toBeFalsy()
     expect(localStorage.getItem('token')).toBeNull()
   })
 })
