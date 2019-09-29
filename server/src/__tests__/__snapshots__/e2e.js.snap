@@ -21,12 +21,12 @@ exports[`Server - e2e gets list of launches 1`] = `
 Object {
   "data": Object {
     "launches": Object {
-      "cursor": "1517433900",
+      "cursor": "9",
       "launches": Array [
         Object {
           "mission": Object {
-            "missionPatch": "https://images2.imgbox.com/42/0a/LAupFe3L_o.png",
-            "name": "SES-16 / GovSat-1",
+            "missionPatch": "https://images2.imgbox.com/52/09/eNvilptL_o.png",
+            "name": "CRS-1",
           },
         },
       ],

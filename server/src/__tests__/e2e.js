@@ -48,7 +48,7 @@ describe('Server - e2e', () => {
     const res = await toPromise(
       graphql({
         query: LAUNCH_LIST_QUERY,
-        variables: { pageSize: 1, after: '1517949900' },
+        variables: { pageSize: 1, after: '10' },
       })
     )
 
