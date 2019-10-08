@@ -7,10 +7,18 @@
     "apollo-link": "^1.2.13"
   },
   "devDependencies": {
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "husky": "^3.0.8",
     "standard-version": "^7.0.0"
   },
   "scripts": {
     "release": "standard-version"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   },
   "repository": {
     "type": "git",
