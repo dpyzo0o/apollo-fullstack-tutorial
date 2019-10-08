@@ -1,0 +1,26 @@
+{
+  "name": "fullstack-tutorial",
+  "version": "1.0.0",
+  "description": "This is the fullstack app for the [Apollo tutorial](http://apollographql.com/docs/tutorial/introduction.html). 🚀",
+  "main": "index.js",
+  "dependencies": {
+    "apollo-link": "^1.2.13"
+  },
+  "devDependencies": {
+    "standard-version": "^7.0.0"
+  },
+  "scripts": {
+    "release": "standard-version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dpyzo0o/apollo-fullstack-tutorial.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dpyzo0o/apollo-fullstack-tutorial/issues"
+  },
+  "homepage": "https://github.com/dpyzo0o/apollo-fullstack-tutorial#readme"
+}
