@@ -1,4 +1,6 @@
 import React from 'react'
+import { Router, Route } from 'react-router-dom'
+import { createMemoryHistory } from 'history'
 
 import { renderApollo, cleanup, waitForElement } from '../../test-utils'
 import Launch, { GET_LAUNCH_DETAILS } from '../launch'
@@ -28,16 +30,26 @@ describe('Launch Page', () => {
   afterEach(cleanup)
 
   it('renders launch', async () => {
+    const history = createMemoryHistory()
+    history.push('/launch/1')
+
     const mocks = [
       {
         request: { query: GET_LAUNCH_DETAILS, variables: { launchId: 1 } },
         result: { data: { launch: mockLaunch } },
       },
     ]
-    const { getByText } = await renderApollo(<Launch launchId={1} />, {
-      mocks,
-      resolvers: {},
-    })
+    const { getByText } = await renderApollo(
+      <Router history={history}>
+        <Route path="/launch/:launchId">
+          <Launch />
+        </Route>
+      </Router>,
+      {
+        mocks,
+        resolvers: {},
+      }
+    )
     await waitForElement(() => getByText(/test mission/i))
   })
 })
