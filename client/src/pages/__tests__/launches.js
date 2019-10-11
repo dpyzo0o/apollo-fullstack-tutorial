@@ -1,4 +1,5 @@
 import React from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
 import { renderApollo, cleanup, waitForElement } from '../../test-utils'
@@ -44,10 +45,15 @@ describe('Launches Page', () => {
         },
       },
     ]
-    const { getByText } = await renderApollo(<Launches />, {
-      mocks,
-      cache,
-    })
+    const { getByText } = await renderApollo(
+      <Router>
+        <Launches />
+      </Router>,
+      {
+        mocks,
+        cache,
+      }
+    )
     await waitForElement(() => getByText(/test mission/i))
   })
 })

@@ -70,23 +70,33 @@ describe('action button', () => {
     const cache = new InMemoryCache()
     cache.writeQuery({
       query: GET_CART_ITEMS,
-      data: { cartItems: [1] },
+      data: { cartItems: [104] },
+    })
+    cache.writeData({
+      data: {
+        'launch({"id":104})': {
+          id: 104,
+          isBooked: false,
+          isInCart: false,
+          __typename: 'Launch',
+        },
+      },
     })
 
     // if we only provide 1 mock, any other queries would cause error
     let mocks = [
       {
-        request: { query: TOGGLE_CART, variables: { launchId: 1 } },
+        request: { query: TOGGLE_CART, variables: { launchId: 104 } },
         result: { data: { addOrRemoveFromCart: true } },
       },
       {
-        request: { query: GET_LAUNCH_DETAILS, variables: { launchId: 1 } },
+        request: { query: GET_LAUNCH_DETAILS, variables: { launchId: 104 } },
         result: { data: { launch: mockLaunch } },
       },
     ]
 
     const { getByTestId, container, debug } = renderApollo(
-      <ActionButton id={1} isBooked={false} />,
+      <ActionButton id={104} isBooked={false} />,
       {
         mocks,
         cache,

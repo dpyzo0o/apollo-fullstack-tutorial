@@ -1,4 +1,5 @@
 import React from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 import { renderApollo, cleanup, waitForElement } from '../../test-utils'
 import Profile, { GET_MY_TRIPS } from '../profile'
@@ -39,7 +40,12 @@ describe('Profile Page', () => {
       },
     ]
 
-    const { getByText } = renderApollo(<Profile />, { mocks })
+    const { getByText } = renderApollo(
+      <Router>
+        <Profile />
+      </Router>,
+      { mocks }
+    )
 
     // if the profile renders, it will have the list of missions booked
     await waitForElement(() => getByText(/test mission/i))
