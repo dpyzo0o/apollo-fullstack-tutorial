@@ -24,9 +24,7 @@ export const GET_LAUNCH_DETAILS = gql`
 export default function Launch() {
   const { launchId } = useParams()
   const { data, loading, error } = useQuery(GET_LAUNCH_DETAILS, {
-    variables: {
-      launchId: Number(launchId),
-    },
+    variables: { launchId },
   })
 
   if (loading) {

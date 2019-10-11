@@ -35,7 +35,7 @@ describe('Launch Page', () => {
 
     const mocks = [
       {
-        request: { query: GET_LAUNCH_DETAILS, variables: { launchId: 1 } },
+        request: { query: GET_LAUNCH_DETAILS, variables: { launchId: '1' } },
         result: { data: { launch: mockLaunch } },
       },
     ]
